@@ -1,13 +1,19 @@
-const express = require("express");
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
-const api = express();
+mongoose.connect("mongodb://marlonjmf13:"+ process.env.MLAB_PW +"@ds157574.mlab.com:57574/todo_express", { useNewUrlParser: true });
 
-api.use(express.static(__dirname + "/public"));
+const app = express();
 
-api.listen(3000, () => {
-    console.log("API up and runing!");
-});
 
-// api.get('/', (req, res) => {
-//     res.send('Hello, World!')
-// })
+app.use(express.static(__dirname + "/public"));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+const routes = require('./routes/todos')
+app.use('/add', routes);
+
+const port = process.env.PORT || 3000
+
+app.listen(port, () => console.log('API up an runing!'))

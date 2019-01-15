@@ -68,14 +68,19 @@ renderPriorityList(tasks, searchTitle);
 
 // ============ ADD NEW TASK
 document.querySelector("#new-priority").addEventListener('submit', function (e) {
+    
     e.preventDefault();
+
+    sendItemToApi(e.target.priority.value);
+
     if (e.target.priority.value) {
         tasks.unshift({ title: e.target.priority.value, completed: false })
         renderPriorityList(tasks, searchTitle);
         e.target.priority.value = ''
     }
-})
 
+
+})
 
 
 // ============ COMPLETED TASK
@@ -95,3 +100,17 @@ document.querySelector('#search-task').addEventListener('input', function (e) {
     searchTitle.text = e.target.value.toLocaleLowerCase();
     renderPriorityList(tasks, searchTitle);
 })
+
+
+// ============ SENDING TODO ITEM TO API
+
+function sendItemToApi(item) {
+    fetch('/add', { 
+        method: "POST", 
+        headers: { "Content-Type": "application/json"}, 
+        body: JSON.stringify({ title: item, completed: false })})
+        .then(res => {
+            console.log('It Worked')
+        })
+        .catch(err => { console.log(err) })
+}
