@@ -7,31 +7,42 @@ const Todo = require('../models/todos');
 
 
 
-router.post('/todos', (req, res, next) => {
-
+router.post('/todos', (req, res) => {
     const todo = new Todo({
         _id: new mongoose.Types.ObjectId(),
         title: req.body.title,
         completed: false 
     })
-    
+   
     todo.save().then( re => {
-        console.log(re);
+       res.send(re)
     }).catch(err => {
         console.log(err)
     })
-
 })
 
 
-router.get('/todos', (req, res, next) => {
+router.get('/todos', (req, res) => {
     Todo.find({}).then(todo => {
         res.send(todo)
-        console.log(todo)
     }).catch(err => {
         console.log(err)
     })
 })
+
+
+router.put('/todos/:id', (req, res) => {
+    const todoId = req.params.id;
+    Todo.updateOne(
+        { _id: Object(todoId)}, {$set: { completed: true }}
+        ).then(res => {
+        res.send(res)
+    }).catch(err => {
+        res.send(err)
+    })
+})
+
+
 
 
 module.exports = router;

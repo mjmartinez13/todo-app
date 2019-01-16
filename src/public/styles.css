@@ -1,5 +1,43 @@
-p.completed {
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.completed {
     text-decoration: line-through;
     transition: all .3s ease;
     color: #cdcdcd;
+}
+.container {
+    padding: 20px;
+    max-width: 580px;
+    margin: 0 auto;
+}
+
+.t-wrapper {
+    background: #f2f2f2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 5px;
+    padding: 20px;
+}
+
+.t-wrapper p {
+    font-size: 18px;
+}
+
+.t-wrapper button {
+    background: none;
+    border: none;
+    height: 20px;
+    width: 20px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.check-btn {
+    display: inline-block;
 }

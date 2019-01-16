@@ -3,20 +3,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
     <title>Document</title>
 </head>
 <body>
-    <h1>Priority List for Today</h1>
-    <h3 id="incomple-task"></h3>
-    <div>
-        <input type="text" id="search-task" placeholder="Search for a task">
+    <div class="container">
+        <h1>Priority List for Today</h1>
+        <h3 id="incomple-task"></h3>
+        <div>
+            <input type="text" id="search-task" placeholder="Search for a task">
+        </div>
+        <form id="new-priority">
+            <input type="text" name="priority" placeholder="Add new priority">
+            <button>Add Priority</button>
+        </form>
+        <div id="list"></div>
     </div>
-    <form id="new-priority">
-        <input type="text" name="priority" placeholder="Add new priority">
-        <button>Add Priority</button>
-    </form>
-    <div id="list"></div>
+
     <script src="app.js"></script>
 </body>
 
