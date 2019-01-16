@@ -1,17 +1,24 @@
-let tasks = [
-    {
-        title: 'Responde to Brand\' email',
-        completed: false
-    },
-    {
-        title: 'Develop Vidalux',
-        completed: false
-    }
-]
+let tasks = [];
 
 searchTitle = {
     text: ''
 };
+
+
+
+
+let fetchTodosList = function () {
+    fetch('/todos').then(res => {
+        return res.json()
+    }).then(json => {
+        tasks = json
+        renderPriorityList(tasks, searchTitle)
+    }).catch(err => {
+        console.log(err)
+    })
+}
+
+fetchTodosList();
 
 // =========== RENDER STATUS LABEL
 const renderStatusLable = function (status) {
@@ -25,7 +32,6 @@ const renderStatusLable = function (status) {
 
 // ============ RENDER LIST
 const renderPriorityList = function (tasks, searchTitle) {
-
     const statusLabel = document.querySelector("#incomple-task");
 
     const inCompleteTask = tasks.filter(function (task) {
@@ -64,22 +70,14 @@ const renderPriorityList = function (tasks, searchTitle) {
     });
 }
 
-renderPriorityList(tasks, searchTitle);
+
 
 // ============ ADD NEW TASK
 document.querySelector("#new-priority").addEventListener('submit', function (e) {
-    
     e.preventDefault();
-
     sendItemToApi(e.target.priority.value);
-
-    if (e.target.priority.value) {
-        tasks.unshift({ title: e.target.priority.value, completed: false })
-        renderPriorityList(tasks, searchTitle);
-        e.target.priority.value = ''
-    }
-
-
+    fetchTodosList()
+    e.target.priority.value = ''
 })
 
 
@@ -105,7 +103,7 @@ document.querySelector('#search-task').addEventListener('input', function (e) {
 // ============ SENDING TODO ITEM TO API
 
 function sendItemToApi(item) {
-    fetch('/add', { 
+    fetch('/todos', { 
         method: "POST", 
         headers: { "Content-Type": "application/json"}, 
         body: JSON.stringify({ title: item, completed: false })})
@@ -114,3 +112,6 @@ function sendItemToApi(item) {
         })
         .catch(err => { console.log(err) })
 }
+
+
+
