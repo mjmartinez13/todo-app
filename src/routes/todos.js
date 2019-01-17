@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-const db = mongoose.connection;
 
 const Todo = require('../models/todos');
 
@@ -15,9 +14,9 @@ router.post('/todos', (req, res) => {
     })
    
     todo.save().then( re => {
-       res.send(re)
+        res.send(re)
     }).catch(err => {
-        console.log(err)
+        res.send(err)
     })
 })
 
@@ -33,16 +32,25 @@ router.get('/todos', (req, res) => {
 
 router.put('/todos/:id', (req, res) => {
     const todoId = req.params.id;
-    Todo.updateOne(
-        { _id: Object(todoId)}, {$set: { completed: true }}
-        ).then(res => {
-        res.send(res)
-    }).catch(err => {
-        res.send(err)
+    Todo.updateOne({ _id: Object(todoId)}, {$set: { completed: true }}, (err) => {
+        if(err) {
+            res.status(500).send(err)
+        } else {
+            res.status(204).send(err)
+        }
     })
 })
 
 
+router.put('/todos', (req, res) => {
+    Todo.deleteMany({completed: true }, (err) => {
+        if (err) {
+            res.status(500).send(err)
+        } else {
+            res.status(204).send(err)
+        }
+    })
+})
 
 
 module.exports = router;

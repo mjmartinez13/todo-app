@@ -4,18 +4,6 @@ searchTitle = {
     text: ''
 };
 
-// ========== FETCH DATA
-const fetchTodosList = function () {
-    fetch('/todos').then(res => {
-        return res.json()
-    }).then(json => {
-        todos = json
-        renderPriorityList(todos, searchTitle)
-    }).catch(err => {
-        console.log(err)
-    })
-}
-
 fetchTodosList();
 
 // ===========  STATUS LABEL
@@ -59,11 +47,12 @@ const renderPriorityList = function (todos, searchTitle) {
         const div = document.createElement('div');
         div.classList.add('t-wrapper')
         if (priority.completed) {
-            div.classList.add('completed')
+            div.classList.add('completed')         
+            div.innerHTML = "<div><input class='checkbox' type='checkbox' name=" + priority._id + " checked><span class='checkmark'></span></div><p>" + priority.title + "</p>";
+        } else {
+            div.innerHTML = "<div><input class='checkbox' type='checkbox' name=" + priority._id + "><span class='checkmark'></span></div><p>" + priority.title + "</p>";
         }
-        
         document.querySelector('#list').appendChild(div)
-        div.innerHTML = "<p>" + priority.title + "</p><button class='check-btn'><i><i class='far fa-check-circle'></i></button>";
 
     });
 }
@@ -80,44 +69,21 @@ document.querySelector("#new-priority").addEventListener('submit', function (e) 
 
 // ============ COMPLETED TASK
 
+document.addEventListener('change', function (e) {
+    if (e.target.classList == 'checkbox') {
 
-document.addEventListener('click', function(e) {
-    if (e.target.parentNode.parentNode.classList == 'check-btn') {
-        
-        const item = e.target.parentNode.parentNode.parentNode.querySelector('p').textContent
-
-       const selectedItem = todos.filter( todo => {
-           return todo.title.toLocaleLowerCase() === item.toLocaleLowerCase()
-       })
-
-       fetch(`/todos/${selectedItem[0]._id}`, {
-           method: "PUT",
-        //    headers: { "Content-Type": "application/json" },
-        //    body: JSON.stringify({  })
-       }).then( res => {
-           fetchTodosList();
-           console.log(todos)
-       })
-       .catch( err => {
-           console.log(err)
-       })
+        fetch(`/todos/${e.target.name}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ })
+        }).then( res => {
+            fetchTodosList();
+        })
+        .catch(err => console.log(err))
     }
+
 })
 
-// document.querySelector("#list").addEventListener("click", function(e) {
-  
-// //   const priorityCompleted = e.target.parentNode.toLocaleLowerCase();
-
-    
-//     console.log(e.target.parentNode.parentNode.parentNode)
-
-// //   todos.forEach(function(priority) {
-// //     if (priority.title.toLocaleLowerCase() === priorityCompleted) {
-// //       priority.completed ? (priority.completed = false) : (priority.completed = true);
-// //     }
-// //   });
-// //   renderPriorityList(todos, searchTitle);
-// });
 
 // ============ SEARCH INPUT
 document.querySelector('#search-task').addEventListener('input', function (e) {
@@ -126,17 +92,46 @@ document.querySelector('#search-task').addEventListener('input', function (e) {
 })
 
 
+
+// ============ fetch website data
+
+async function fetchTodosList() {
+    const todosList = await fetch("/todos")
+    const data = await todosList.json()
+
+    todos = data.reverse();
+    renderPriorityList(todos, searchTitle)
+}
+
+
 // ============ SENDING TODO ITEM TO API
-function sendItemToApi(item) {
-    fetch('/todos', { 
+async function sendItemToApi(item) {
+    const response = await fetch('/todos', { 
         method: "POST", 
         headers: { "Content-Type": "application/json"}, 
         body: JSON.stringify({ title: item, completed: false })})
-        .then(res => {
-            fetchTodosList();
-        })
-        .catch(err => { console.log(err) })
+
+        if (response) {
+            fetchTodosList()
+        }
+        
 }
 
 
 
+// ============ Clear all task
+document.querySelector('#clear-btn').addEventListener('click', function(e) {
+    // e.preventDefault()
+    clearCompletedTask();
+})
+
+
+
+async function clearCompletedTask() {
+    const response = await fetch('/todos', {
+        method: "PUT"
+    })
+    if (response) {
+        fetchTodosList()
+    }
+}
