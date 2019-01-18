@@ -1,0 +1,13 @@
+.badge {
+    // background: #ff003b;
+    display: inline-block
+
+    span {
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 15px; 
+    }
+}

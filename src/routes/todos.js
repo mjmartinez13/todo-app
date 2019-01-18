@@ -42,8 +42,9 @@ router.put('/todos/:id', (req, res) => {
 })
 
 
-router.put('/todos', (req, res) => {
-    Todo.deleteMany({completed: true }, (err) => {
+router.put('/todos/delete/:id', (req, res) => {
+    const todoId = req.params.id;
+    Todo.deleteOne({_id: Object(todoId) }, (err) => {
         if (err) {
             res.status(500).send(err)
         } else {

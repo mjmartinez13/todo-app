@@ -1,0 +1,34 @@
+.header {
+    background: #6989da;
+    color: #fff;
+    padding: 20px 30px;
+    box-shadow: 0 3px 20px 0 rgba(0,0,0,0.12);
+    
+    h1 {
+        color: #fff;
+        font-weight: 100;
+        font-size: 26px;
+        display: inline-block;
+        
+        span {
+            font-weight: 100;
+        }
+    }
+
+    p {
+        position: relative;
+        top: 5px;
+        float: right;
+        span {
+            display: inline-block;
+            background:#ef4747;
+            height: 25px;
+            width: 25px;
+            line-height: 25px;
+            border-radius: 50%;
+            text-align: center;
+        }
+       
+    }
+    
+}

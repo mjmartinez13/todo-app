@@ -1,0 +1,58 @@
+
+.t-wrapper {
+    background: #f9f9f9;
+    margin-top: 3px; 
+    padding: 18px 30px;
+    transition: all .3s ease;
+    position: relative;
+
+    &.completed {
+        background: #f2f2f2;
+        .input-wrapper {
+            background: #1959ac;
+        }
+        p {
+            color: #bbb;
+            &:after {
+                width: 114%;
+            }
+        }
+       
+    }
+
+    input {
+        height: 13px;
+        width: 13px;
+        opacity: 0;
+        cursor: pointer;
+    }
+    
+    .input-wrapper {
+        height: 10px;
+        width: 10px;
+        border: 2px solid #ccc;
+        position: relative;
+        text-align: center;
+        border-radius: 50%;
+        display: inline-block;
+      
+    }
+
+    p {
+        display: inline-block;
+        font-size: 18px;
+        margin-left: 30px;
+        position: relative;
+        color:#7b7b7b;
+         &:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -7%;
+            width: 0;
+            height: 2px;
+            background: #bbb;
+            transition: width .5s ease;
+        } 
+    }
+}

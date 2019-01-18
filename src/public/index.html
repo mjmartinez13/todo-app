@@ -9,17 +9,24 @@
 </head>
 <body>
     <div class="container">
-        <h1>Priority List for Today</h1>
-        <h3 id="incomple-task"></h3>
-        <div>
-            <input type="text" id="search-task" placeholder="Search for a task">
+        <div class="header">
+            <h1></h1>
+            <p id="badge"></p>
         </div>
-        <form id="new-priority">
-            <input type="text" name="priority" placeholder="Add new priority">
-            <button>Add Priority</button>
-            <button id="clear-btn">Clear Completed</button>
-        </form>
+        <div class="search-box">
+            <input type="text" id="search-task"  placeholder="Search for a task">
+            <i class="fas fa-search"></i>
+        </div>
+
         <div id="list"></div>
+
+        <form id="new-priority" class="form-wrapper">
+            <input type="text"
+                name="priority"
+                placeholder="Add new task"
+                autocomplete="off">
+            <button><i class="fas fa-plus"></i>Add</button>
+        </form>
     </div>
 
     <script src="app.js"></script>
